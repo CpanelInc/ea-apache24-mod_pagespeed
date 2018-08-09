@@ -4,7 +4,7 @@
 Summary: 		Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 Name: 			ea-apache24-mod_pagespeed
 Version: 		stable
-%define 		release_prefix 2
+%define 		release_prefix 3
 Release: 		%{release_prefix}%{?dist}.cpanel
 License: 		Apache Software License
 Group: 			System Environment/Daemons
@@ -50,6 +50,9 @@ install -d -m 0755 %{buildroot}%{_libdir}/apache2/modules/
 install -m755 mod_pagespeed.so %{buildroot}%{_libdir}/apache2/modules/
 install -m755 mod_pagespeed_ap24.so %{buildroot}%{_libdir}/apache2/modules/
 
+install -d %{buildroot}%{_localstatedir}/mod_pagespeed
+install -d %{buildroot}%{_localstatedir}/mod_pagespeed/cache
+
 %clean
 rm -rf %{buildroot}
 
@@ -58,8 +61,13 @@ rm -rf %{buildroot}
 %attr(755,root,root)%{_libdir}/apache2/modules/*.so
 %attr(644,root,root)%{_sysconfdir}/apache2/conf.modules.d/456_pagespeed.conf
 %config(noreplace) %{_sysconfdir}/apache2/conf.modules.d/*.conf
+%attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed
+%attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed/cache
 
 %changelog
+* Fri Aug 03 2018 Tim Mullin <tim@cpanel.net> - stable-3
+- EA-6948: fix up ownership and permissions on /var/mod_pagespeed and /var/mod_pagespeed/cache
+
 * Sat Oct 28 2017 Cory McIntire <cory@cpanel.net> - stable-2
 - EA-6674: fix up permissions on 456_pagespeed.conf file
 
