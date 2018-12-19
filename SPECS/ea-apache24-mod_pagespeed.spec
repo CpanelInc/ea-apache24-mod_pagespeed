@@ -4,12 +4,12 @@
 Summary: 		Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 Name: 			ea-apache24-mod_pagespeed
 Version: 		stable
-%define 		release_prefix 4
+%define 		release_prefix 5
 Release: 		%{release_prefix}%{?dist}.cpanel
 License: 		Apache Software License
 Group: 			System Environment/Daemons
 URL: 			http://modpagespeed.com/
-Source0: 		456_pagespeed.conf
+Source0: 		466_pagespeed.conf
 Vendor:			cPanel Inc.
 BuildRequires: 	wget cpio ea-apr-util
 Conflicts: 		%{ns_name}-mod_ruid2
@@ -59,12 +59,15 @@ rm -rf %{buildroot}
 %files
 %defattr(0640,root,root,0755)
 %attr(755,root,root)%{_libdir}/apache2/modules/*.so
-%attr(644,root,root)%{_sysconfdir}/apache2/conf.modules.d/456_pagespeed.conf
+%attr(644,root,root)%{_sysconfdir}/apache2/conf.modules.d/466_pagespeed.conf
 %config(noreplace) %{_sysconfdir}/apache2/conf.modules.d/*.conf
 %attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed
 %attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed/cache
 
 %changelog
+* Wed Dec 19 2018 Tim Mullin <tim@cpanel.net> - stable-5
+- EA-8095: Bump conf file prefix from 456 to 466 so it loads after mod_version
+
 * Mon Aug 20 2018 Cory McIntire <cory@cpanel.net> - stable-4
 - EA-7761: Update to version 1.13.35.2
 
