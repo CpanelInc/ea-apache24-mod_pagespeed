@@ -4,7 +4,7 @@
 Summary: 		Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 Name: 			ea-apache24-mod_pagespeed
 Version: 		stable
-%define 		release_prefix 7
+%define 		release_prefix 8
 Release: 		%{release_prefix}%{?dist}.cpanel
 License: 		Apache Software License
 Group: 			System Environment/Daemons
@@ -53,6 +53,17 @@ install -m755 mod_pagespeed_ap24.so %{buildroot}%{_libdir}/apache2/modules/
 install -d %{buildroot}%{_localstatedir}/mod_pagespeed
 install -d %{buildroot}%{_localstatedir}/mod_pagespeed/cache
 
+%post
+# If we are upgrading from the old version, then the old config file will
+# be named 466_pagespeed.conf, copy it to 510_pagespeed.conf
+# So it will be picked up as the current config file
+if [ $1 == 2 ];then
+	if [ -f "/etc/apache2/conf.modules.d/466_pagespeed.conf" ]; then
+		cp /etc/apache2/conf.modules.d/466_pagespeed.conf /etc/apache2/conf.modules.d/510_pagespeed.conf
+		rm /etc/apache2/conf.modules.d/466_pagespeed.conf
+	fi
+fi
+
 %clean
 rm -rf %{buildroot}
 
@@ -65,6 +76,9 @@ rm -rf %{buildroot}
 %attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed/cache
 
 %changelog
+* Thu Mar 26 2020 Tim Mullin <tim@cpanel.net> - stable-8
+- EA-8945: Make sure the old config file becomes the new config file
+
 * Tue Mar 24 2020 Cory McIntire <cory@cpanel.net> - stable-7
 - EA-8527: Move into production
 
