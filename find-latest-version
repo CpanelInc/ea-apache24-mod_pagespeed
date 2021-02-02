@@ -1,0 +1,47 @@
+#!/usr/local/cpanel/3rdparty/bin/perl
+# cpanel - find-latest-version                  Copyright(c) 2019 cPanel, L.L.C.
+#                                                           All rights Reserved.
+# copyright@cpanel.net                                         http://cpanel.net
+# This code is subject to the cPanel license. Unauthorized copying is prohibited
+#
+# This provides incremental updates to existing packages in EasyApache4.
+package ea_apache24_mod_pagespeed::find_latest_version;
+
+use strict;
+use warnings;
+
+use lib "../ea-tools/lib/ea4_tool";    # assumes ea-tools is checked out next to this repo
+use ea4_tool::util ();
+
+ea4_tool::util::find_latest_version( \&_get_required, \&_add_sum ) if !caller();
+
+###############
+#### helpers ##
+###############
+
+sub _get_required {
+    my ($http) = @_;
+
+    my $listing_url = "https://dist.apache.org/repos/dist/release/incubator/pagespeed/";
+    my $res         = $http->get($listing_url);
+    if ( !$res->{success} ) {
+        die "Could not GET Apache PageSpeed Release Notes page ($res->{status} $res->{reason})\n";
+    }
+
+    my $pagespeed = ( $res->{content} =~ m/href="([0-9]\.[0-9]+\.[0-9]+\.[0-9]+)\/"/g )[0];
+    if ( !$pagespeed ) {
+        die "Could not find Apache PageSpeed versions ($res->{status} $res->{reason}\n";
+    }
+
+    my $version = "$pagespeed";
+    my $name    = "mod-pagespeed-stable_current_x86_64.rpm";
+    my $url     = "https://dl-ssl.google.com/dl/linux/direct/$name";
+
+    return ( $version, $url, $name );
+}
+
+sub _add_sum {
+    my ( $http, $hr ) = @_;
+
+    return ;
+}
