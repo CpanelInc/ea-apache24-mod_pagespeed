@@ -34,8 +34,8 @@ sub _get_required {
     }
 
     my $version = "$pagespeed";
-    my $name    = "mod-pagespeed-stable_current_x86_64.rpm";
-    my $url     = "https://dl-ssl.google.com/dl/linux/direct/$name";
+    my $name    = "mod-pagespeed-apache-incubating-beta-$pagespeed-r0.tar.bz2";
+    my $url     = "https://dist.apache.org/repos/dist/release/incubator/pagespeed/$pagespeed/$name";
 
     return ( $version, $url, $name );
 }

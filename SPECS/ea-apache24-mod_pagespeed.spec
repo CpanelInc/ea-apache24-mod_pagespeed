@@ -1,5 +1,6 @@
 %global ns_name ea-apache24
 %global module_name mod_pagespeed
+%define prefix_dir /opt/cpanel/%{ns_name}-%{module_name}
 
 Summary: 		Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 Name: 			ea-apache24-mod_pagespeed
