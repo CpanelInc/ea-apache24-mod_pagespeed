@@ -1,10 +1,11 @@
 %global ns_name ea-apache24
 %global module_name mod_pagespeed
+%define prefix_dir /opt/cpanel/%{ns_name}-%{module_name}
 
 Summary: 		Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 Name: 			ea-apache24-mod_pagespeed
-Version: 		stable
-%define 		release_prefix 9
+Version: 		1.14.36.1
+%define 		release_prefix 1
 Release: 		%{release_prefix}%{?dist}.cpanel
 License: 		Apache Software License
 Group: 			System Environment/Daemons
@@ -23,21 +24,11 @@ Requires: 	ea-apache24 ea-apache24-mod_version
 Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 
 %prep
-%if %{__isa_bits} == 64
-	/bin/mv ../SOURCES/mod-pagespeed-stable_current_x86_64.rpm mod-pagespeed-stable.rpm
-%endif
-%if %{__isa_bits} == 32
-	/bin/mv ../SOURCES/mod-pagespeed-stable_current_i386.rpm mod-pagespeed-stable.rpm
-%endif
+/bin/mv ../SOURCES/mod-pagespeed-stable_current_x86_64.rpm mod-pagespeed-stable.rpm
 
 %build
 rpm2cpio mod-pagespeed-stable.rpm  | cpio -idmv
-%if %{__isa_bits} == 64
 mv usr/lib64/httpd/modules/mod_pagespeed{,_ap24}.so .
-%endif
-%if %{__isa_bits} == 32
-mv usr/lib/httpd/modules/mod_pagespeed{,_ap24}.so .
-%endif
 %{__strip} -g mod_pagespeed.so
 %{__strip} -g mod_pagespeed_ap24.so
 
@@ -76,6 +67,10 @@ rm -rf %{buildroot}
 %attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed/cache
 
 %changelog
+* Thu Feb 04 2021 Cory McIntire <cory@cpanel.net> - 1.14.36.1-1
+- EA-9563: Update ea-apache24-mod_pagespeed from vstable to v1.14.36.1
+           Remove 32 bit logic and RPM
+
 * Mon Oct 12 2020 Tim Mullin <tim@cpanel.net> - stable-9
 - EA-9262: Exclude cpanel. subdomain from Pagespeed
 
