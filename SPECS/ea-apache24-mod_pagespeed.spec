@@ -4,8 +4,9 @@
 
 Summary: 		Apache module created by Google to help Make the Web Faster by rewriting web pages to reduce latency and bandwidth.
 Name: 			ea-apache24-mod_pagespeed
-Version: 		1.14.36.1
-%define 		release_prefix 2
+Epoch:			1
+Version: 		1.13.35.2
+%define 		release_prefix 1
 Release: 		%{release_prefix}%{?dist}.cpanel
 License: 		Apache Software License
 Group: 			System Environment/Daemons
@@ -67,6 +68,11 @@ rm -rf %{buildroot}
 %attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed/cache
 
 %changelog
+* Thu Mar 13 2026 Cory McIntire <cory@cpanel.net> - 1.13.35.2-1
+- EA-13373: Fix version to match actual shipped binary (was 1.14.36.1 in
+  spec but 1.13.35.2 in SOURCES RPM since EA-7761). Add Epoch 1 for
+  clean upgrade path.
+
 * Wed Feb 10 2021 Cory McIntire <cory@cpanel.net> - 1.14.36.1-2
 - EA-9585: Fix changelog case entry
 
