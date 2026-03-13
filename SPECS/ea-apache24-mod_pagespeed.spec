@@ -68,7 +68,7 @@ rm -rf %{buildroot}
 %attr(755,nobody,nobody) %dir %{_localstatedir}/mod_pagespeed/cache
 
 %changelog
-* Thu Mar 13 2026 Cory McIntire <cory@cpanel.net> - 1.13.35.2-1
+* Fri Mar 13 2026 Cory McIntire <cory@cpanel.net> - 1.13.35.2-1
 - EA-13373: Fix version to match actual shipped binary (was 1.14.36.1 in
   spec but 1.13.35.2 in SOURCES RPM since EA-7761). Add Epoch 1 for
   clean upgrade path.
